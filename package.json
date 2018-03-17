@@ -1,13 +1,16 @@
 {
-  "homepage": "http://mindricanmiai.github.io/moving-to-new-office",
+  "homepage": "http://mindricanrares.github.io/moving-to-new-office",
   "name": "moving-to-new-office",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "feed-reader": "^1.1.3",
+    "jquery": "^3.3.1",
     "node-sass": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
+    "rss-parser": "^3.1.2",
     "sass-loader": "^6.0.7"
   },
   "scripts": {

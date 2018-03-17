@@ -1,178 +1,101 @@
-import React from 'react';
-import './App.css';
-
-
-
-class AnimatedCard extends React.Component {
-	render() {
-		const { position, digit, animation } = this.props;
-		return(
-			<div className={`flipCard ${position} ${animation}`}>
-				<span>{digit}</span>
-			</div>
-		);
-	}
-}
-
-class StaticCard extends React.Component {
-	render() {
-		const { position, digit } = this.props;
-		return(
-			<div className={position}>
-				<span>{digit}</span>
-			</div>
-		);
-	}
-}
-
-class FlipUnitContainer extends React.Component {
-	
-	render() {
-		const { digit, shuffle, unit } = this.props;
-		
-		let now = digit;
-		let before = digit - 1;
-		
-		// to prevent a negative value
-		if( unit !== 'hours') {
-			before = before === -1 ? 59 : before;
-		} else {
-			before = before === -1 ? 23 : before;
-		}
-		
-		// add zero
-		if( now < 10 ) now = `0${now}`; 
-		if( before < 10 ) before = `0${before}`;
-		
-		// shuffle digits
-		const digit1 = shuffle ? before : now;
-		const digit2 = !shuffle ? before : now;
-		
-		// shuffle animations
-		const animation1 = shuffle ? 'fold' : 'unfold';
-		const animation2 = !shuffle ? 'fold' : 'unfold';
-		
-		return(
-			<div className={'flipUnitContainer'}>
-				<StaticCard 
-					position={'upperCard'} 
-					digit={now} 
-					/>
-				<StaticCard 
-					position={'lowerCard'} 
-					digit={before} 
-					/>
-				<AnimatedCard 
-					position={'first'}
-					digit={digit1}
-					animation={animation1}
-					/>
-				<AnimatedCard 
-					position={'second'}
-					digit={digit2}
-					animation={animation2}
-					/>
-			</div>
-		);
-	}
-}
-
-class FlipClock extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			hours: 0,
-			hoursShuffle: true,
-			minutes: 0,
-			minutesShuffle: true,
-			seconds: 0,
-			secondsShuffle: true
-		};
-	}
-	componentDidMount() {
-		this.timerID = setInterval(
-			() => this.updateTime(),
-			50
-		);
-	}
-	componentWillUnmount() {
-		clearInterval(this.timerID);
-	}
-	updateTime() {
-		// get new date
-		const time = new Date();
-		// set time units
-		const hours = time.getHours();
-		const minutes = time.getMinutes();
-		const seconds = time.getSeconds();
-		// on hour chanage, update hours and shuffle state
-		if( hours !== this.state.hours) {
-			const hoursShuffle = !this.state.hoursShuffle;
-			this.setState({
-				hours,
-				hoursShuffle
-			});
-		}
-		// on minute chanage, update minutes and shuffle state
-		if( minutes !== this.state.minutes) {
-			const minutesShuffle = !this.state.minutesShuffle;
-			this.setState({
-				minutes,
-				minutesShuffle
-			});
-		}
-		// on second chanage, update seconds and shuffle state
-		if( seconds !== this.state.seconds) {
-			const secondsShuffle = !this.state.secondsShuffle;
-			this.setState({
-				seconds,
-				secondsShuffle
-			});
-		}
-	}
-	render() {
-		const { hours, minutes, seconds, hoursShuffle, minutesShuffle, secondsShuffle } = this.state;
-		return(
-			<div className={'flipClock'}>
-				<FlipUnitContainer 
-					unit={'hours'}
-					digit={hours} 
-					shuffle={hoursShuffle} 
-					/>
-				<FlipUnitContainer 
-					unit={'minutes'}
-					digit={minutes} 
-					shuffle={minutesShuffle} 
-					/>
-				<FlipUnitContainer 
-					unit={'seconds'}
-					digit={seconds} 
-					shuffle={secondsShuffle} 
-					/>
-			</div>
-		);
-	}
-}
-
-class Header extends React.Component {
-	render() {
-		return(
-			<header>
-				<h1> React Flip Clock</h1>
-			</header>
-		);
-	}
-}
+import React from "react";
+import "./App.css";
 
 class App extends React.Component {
-	render() {
-		return(
-			<div>
-				<Header />
-				<FlipClock />
-			</div>
-		);
-	}
+  constructor(props) {
+    super(props);
+    window.$(this.refs.list).fadeOut();
+    function countdown() {
+      var now = new Date();
+      var eventDate = new Date(2018, 9, 1);
+
+      var currentTime = now.getTime();
+      var eventTime = eventDate.getTime();
+
+      var remTime = eventTime - currentTime;
+
+      var seconds = Math.floor(remTime / 1000);
+      var minutes = Math.floor(seconds / 60);
+      var hours = Math.floor(minutes / 60);
+      var days = Math.floor(hours / 24);
+
+      hours %= 24;
+      minutes %= 60;
+      seconds %= 60;
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
+    }
+
+
+  
+  }
+
+  componentDidMount(){
+    const url = 'http://adevarul.ro/ex/yrssv2'
+    const url2 ='http://www.brasovultau.ro/feed/';
+    const textarea = document.getElementById('rss-part')
+    // eslint-disable-next-line
+    feednami.load(url)
+        .then(feed => {
+            textarea.value = ''
+            console.log(feed)
+            for (let entry of feed.entries) {
+                textarea.value += `${entry.title}\n${entry.link}\n\n`
+            }
+        })
+  }
+  render() {
+    return (
+      <div>
+        <div className="fullwidth colour1 clearfix">
+          <div
+            id="countdown"
+            className="bodycontainer clearfix"
+            data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}"
+          >
+            <div id="countdowncont" className="clearfix">
+              <ul id="countscript">
+                <li>
+                  <span id="days" className="days">
+                    00
+                  </span>
+                  <p>Days</p>
+                </li>
+                <li>
+                  <span id="hours" className="hours">
+                    00
+                  </span>
+                  <p>Hours</p>
+                </li>
+                <li className="clearbox">
+                  <span id="minutes" className="minutes">
+                    00
+                  </span>
+                  <p>Minutes</p>
+                </li>
+                <li>
+                  <span id="seconds" className="seconds">
+                    00
+                  </span>
+                  <p>Seconds</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="rss-part">
+
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
