@@ -1,19 +1,41 @@
 import React from "react";
 import "./App.css";
 import "./carousel.css";
-
-var feed={
-  entries:[
-    {"rss:title":'PlaceHolder'},
-    {"rss:title":'PlaceHolder'},
-    {"rss:title":'PlaceHolder'}
-  ]
-};
+var feed2;
 class App extends React.Component {
   constructor(props) {
     super(props);
     window.$(this.refs.list).fadeOut();
-
+    this.state={
+      feed:{
+        entries:[
+          {"rss:title":'PlaceHolder'},
+          {"rss:title":'PlaceHolder'},
+          {"rss:title":'PlaceHolder'}
+        ]
+      }
+    }
+    setTimeout(function() {
+      debugger;
+      console.log(feed2.entries['0']['rss:title']['#']);
+      this.setState({
+        feed:{
+          entries:[
+            {"rss:title":feed2.entries['0']['rss:title']['#']},
+            {"rss:title":feed2.entries['1']['rss:title']['#']},
+            {"rss:title":feed2.entries['2']['rss:title']['#']}
+          ]
+        }
+      })
+    }.bind(this), 1000);
+    const url = "http://adevarul.ro/ex/yrssv2";
+    const url2 = "http://www.brasovultau.ro/feed/";
+    // eslint-disable-next-line
+    feednami.load(url2).then(rssfeed => {
+      debugger;
+      feed2=rssfeed
+    });
+    
   }
   countdown = () => {
     var now = new Date();
@@ -44,23 +66,10 @@ class App extends React.Component {
   };
   componentDidMount() {
     setInterval(() => {
-      this.countdown();
-      const url = "http://adevarul.ro/ex/yrssv2";
-    const url2 = "http://www.brasovultau.ro/feed/";
-    const textarea = document.getElementById("rss-part");
-    // eslint-disable-next-line
-    feednami.load(url2).then(rssfeed => {
-      feed=rssfeed;
-      textarea.value = "";
-      console.log(rssfeed);
-      console.log(rssfeed.entries['0']['rss:title']);
-      for (let entry of rssfeed.entries) {
-        textarea.value += `${entry.title}\n${entry.link}\n\n`;
-      }
-    });
-    }, 1000);
-    
+        this.countdown();
+    }, 1000);   
   }
+
   render() {
     return (
       <div>
@@ -237,7 +246,7 @@ class App extends React.Component {
             <div className="col-md-4">
               <div className="card mb-4 box-shadow">
                 <div className="card-body">
-                  <p className="card-text">{feed.entries['0']['rss:title']}</p>
+                  <p className="card-text">{this.state.feed.entries['0']['rss:title']}</p>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
                       <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
@@ -250,7 +259,7 @@ class App extends React.Component {
             <div className="col-md-4">
               <div className="card mb-4 box-shadow">
                 <div className="card-body">
-                  <p className="card-text">{feed.entries['1']['rss:title']}</p>
+                  <p className="card-text">{this.state.feed.entries['1']['rss:title']}</p>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
                       <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
@@ -263,7 +272,7 @@ class App extends React.Component {
             <div className="col-md-4">
               <div className="card mb-4 box-shadow">
                 <div className="card-body">
-                  <p className="card-text">{feed.entries['1']['rss:title']}</p>
+                  <p className="card-text">{this.state.feed.entries['1']['rss:title']}</p>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
                       <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
