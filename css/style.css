@@ -40,6 +40,7 @@ html
 
 body
 {
+	min-height: 75rem;	
 	font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
 	font-size: 20px;
 	line-height: 32px;
@@ -187,6 +188,7 @@ h1, h2, h3
 {
 	width: 100%;
 	padding: 60px 30px;
+	padding-top: 100px;
 	min-width: 280px;
 }
 
