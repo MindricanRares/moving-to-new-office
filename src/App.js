@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import "./carousel.css";
 import feed from 'feed-read'
-var feed2;
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -16,28 +15,56 @@ class App extends React.Component {
         ]
       }
     }
+    this.possibleArticles=[];
    
     const url = "http://adevarul.ro/ex/yrssv2";
     const url2 = "http://www.brasovultau.ro/feed/";
-    // eslint-disable-next-line
-    // feednami.load(url).then(rssfeed => {
-    //   debugger;
-    //   feed2=rssfeed
-    // });
+    const url3 = "https://www.stiribrasov.ro/feed/"
+    const url4 = "http://feeds.feedburner.com/NewsBrasov/?format=xml"
     feed("https://cors-anywhere.herokuapp.com/"+url,function(err,articles){
       if(err)throw err;
+      this.possibleArticles=this.possibleArticles.concat(articles)
+    }.bind(this))
+    feed("https://cors-anywhere.herokuapp.com/"+url2,function(err,articles){
+      if(err)throw err;
+      this.possibleArticles=this.possibleArticles.concat(articles)
+    }.bind(this))
+    feed("https://cors-anywhere.herokuapp.com/"+url3,function(err,articles){
+      if(err)throw err;
+      this.possibleArticles=this.possibleArticles.concat(articles)
+    }.bind(this))
+    feed("https://cors-anywhere.herokuapp.com/"+url4,function(err,articles){
+      if(err)throw err;
+      this.possibleArticles=this.possibleArticles.concat(articles)
+    }.bind(this))
+    setTimeout(() => {
+      console.log(this);
+      console.log(this.pickInterestingNews(this.possibleArticles));
       this.setState({
         feed:{
-          articles:articles
+          articles:this.pickInterestingNews(this.possibleArticles)
         }
       })
-      console.log(articles[0]['title']);
-    }.bind(this))
-    
+      this.forceUpdate();
+    }, 5000);
   }
+
+  pickInterestingNews=(possibleNews)=>{
+    let interestingNews=[];
+    
+    possibleNews.forEach(element => {
+      if((element.content.indexOf('Tractorul')!==-1)||element.content.indexOf('Coresi')!==-1){
+       interestingNews=interestingNews.concat(element) 
+      }
+    });
+
+    return interestingNews;
+  }
+
+
   countdown = () => {
     var now = new Date();
-    var eventDate = new Date(2018, 9, 1);
+    var eventDate = new Date(2018, 10, 1);
 
     var currentTime = now.getTime();
     var eventTime = eventDate.getTime();
@@ -62,10 +89,36 @@ class App extends React.Component {
     document.getElementById("minutes").textContent = minutes;
     document.getElementById("seconds").textContent = seconds;
   };
+
+  getRssNews = () =>{
+    debugger;
+    if(typeof(this.state.feed.articles)==='undefined'){
+      return;
+    }
+    return this.state.feed.articles.map(news => {
+      return(
+        <div className="col-md-4">
+      <div className="card mb-4 box-shadow">
+        <div className="card-body">
+          <p className="card-text">{news.title}</p>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="btn-group">
+              <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
+            </div>
+            <small className="text-muted">9 mins</small>
+          </div>
+        </div>
+      </div>
+    </div>
+      )
+    });
+  }
+
   componentDidMount() {
     setInterval(() => {
         this.countdown();
     }, 1000);   
+
   }
 
   render() {
@@ -107,6 +160,7 @@ class App extends React.Component {
             data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}"
           >
             <div id="countdowncont" className="clearfix">
+            <h1>Au mai ramas</h1>
               <ul id="countscript">
                 <li>
                   <span id="days" className="days">
@@ -133,6 +187,7 @@ class App extends React.Component {
                   <p>Seconds</p>
                 </li>
               </ul>
+              <h1>De Closed-Space</h1>
             </div>
           </div>
         </div>
@@ -181,7 +236,7 @@ class App extends React.Component {
                 />
                 <div className="container">
                   <div className="carousel-caption">
-                    <h1>Nou loc o sa fie atat de departe incat o sa trebuiasca sa merg cu autobuzul la munca dimineata - Un coleg caruia ii place sa mearga pe jos dimineata</h1>
+                    <h1>Nouul loc o sa fie atat de departe incat o sa trebuiasca sa merg cu autobuzul la munca dimineata - Un coleg caruia ii place sa mearga pe jos dimineata</h1>
                     <p>
                       <a
                         className="btn btn-lg btn-primary"
@@ -241,45 +296,7 @@ class App extends React.Component {
         <div className="container">
 
           <div className="row">
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">{this.state.feed.articles[0]['title']}</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">{this.state.feed.articles[1]['title']}</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">{this.state.feed.articles[2]['title']}</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {this.getRssNews()}
           </div>
         </div>
       </div>
