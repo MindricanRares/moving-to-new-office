@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import "./carousel.css";
 import feed from 'feed-read'
+import AfterBefore from "./components/after-before";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +65,7 @@ class App extends React.Component {
 
   countdown = () => {
     var now = new Date();
-    var eventDate = new Date(2018, 10, 1);
+    var eventDate = new Date(2018, 8, 3,8,30);
 
     var currentTime = now.getTime();
     var eventTime = eventDate.getTime();
@@ -166,25 +167,25 @@ class App extends React.Component {
                   <span id="days" className="days">
                     00
                   </span>
-                  <p>Days</p>
+                  <p>Zile</p>
                 </li>
                 <li>
                   <span id="hours" className="hours">
                     00
                   </span>
-                  <p>Hours</p>
+                  <p>Ore</p>
                 </li>
                 <li className="clearbox">
                   <span id="minutes" className="minutes">
                     00
                   </span>
-                  <p>Minutes</p>
+                  <p>Minute</p>
                 </li>
                 <li>
                   <span id="seconds" className="seconds">
                     00
                   </span>
-                  <p>Seconds</p>
+                  <p>Secunde</p>
                 </li>
               </ul>
               <h1>De Closed-Space</h1>
@@ -300,9 +301,10 @@ class App extends React.Component {
           </div>
         </div>
       </div>
+      <AfterBefore/>
       </div>
 
-
+      
     );
   }
 }

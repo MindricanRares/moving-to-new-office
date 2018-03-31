@@ -32,3 +32,8 @@
 .navbar{
   margin-bottom: 0px !important;
 } 
+
+.img-responsive{
+  width:120%; /* you can use % */
+  height: auto;
+}
