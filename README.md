@@ -1,1 +1,1 @@
-This is a very simple project to learn some bootstrap and have fun at the office.
+This is a very simple project to learn some bootstrap, github pages and rss readers.
