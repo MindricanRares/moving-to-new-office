@@ -34,6 +34,6 @@
 } 
 
 .img-responsive{
-  width:120%; /* you can use % */
+  width:120%;
   height: auto;
 }
