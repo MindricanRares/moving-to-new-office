@@ -65,7 +65,7 @@ class App extends React.Component {
 
   countdown = () => {
     var now = new Date();
-    var eventDate = new Date(2018, 8, 3,8,30);
+    var eventDate = new Date(2018, 7, 20,8,30);
 
     var currentTime = now.getTime();
     var eventTime = eventDate.getTime();
@@ -189,6 +189,8 @@ class App extends React.Component {
                 </li>
               </ul>
               <h1>De Closed-Space</h1>
+              <h1>Din cauza unor probleme data finala s-ar putea schimba oricand</h1>
+
             </div>
           </div>
         </div>
